@@ -58,7 +58,3 @@ def notes_date_data_generator(start_year: str, start_month: str, end_year: str, 
         }
 
     return notes_data
-
-# Teste do código
-notes = notes_date_data_generator("2023", "agosto", "2024", "agosto")
-print(notes)
