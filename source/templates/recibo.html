@@ -8,46 +8,49 @@
     <style>
         @page {
             size: A4;
-            margin: 20mm;
-
-            /* Remove cabeçalho e rodapé padrão do navegador */
-            top-left { content: none; }
-            top-center { content: 3rem; }
-            top-right { content: none; }
-            bottom-left { content: none; }
-            bottom-center { content: 3rem; }
-            bottom-right { content: none; }
+            margin: 10mm;
         }
 
         body {
             font-family: Arial, sans-serif;
-            margin: 40px;
-            padding: 20px;
+            margin: 0;
+            padding: 2rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        p{
+            margin: 0;
         }
 
         .recibos-container {
             display: flex;
-            flex-wrap: wrap;
-            justify-content: space-between;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+            height: 100%;
         }
 
         .recibo {
             border: 1px solid #000;
             padding: 20px;
-            margin-bottom: 20px;
-            width: calc(50% - 20px);
+            width: 90%;
             box-sizing: border-box;
+            margin-bottom: 20px; /* Espaço entre os recibos */
+            margin-top: 10px;
+            page-break-inside: avoid;
         }
 
         .recibo-header {
             text-align: center;
             font-weight: bold;
-            font-size: 18px;
+            font-size: 22px;
         }
 
         .recibo-body {
-            margin-top: 20px;
-            font-size: 16px;
+            margin-top: 0;
+            font-size: 18px;
             text-align: justify;
         }
 
@@ -55,56 +58,57 @@
             margin-top: 30px;
         }
 
-        .btn-print {
-            margin: 20px 0 20px 0;
-            text-align: center;
-        }
-
         /* Ajustes para impressão */
         @media print {
-            .btn-print {
-                display: none;
+            body {
+                display: block;
+                margin: 0;
+                padding: 1rem;
+                height: auto;
             }
+
             .recibos-container {
-                display: flex;
-                flex-wrap: wrap;
-                justify-content: space-between;
+                display: block; /* Muda para bloco para alinhar em coluna */
+                padding: 5mm;
+                width: 100%;
             }
+
             .recibo {
-                width: calc(50% - 20px);
+                width: 100%;
                 page-break-inside: avoid;
-            }
-            .text-center {
-                display: none;
+                margin: 0 0 20px 0;
             }
         }
     </style>
 </head>
 <body>
-    <h1 class="text-center">Recibos Fiscais</h1>
-    <div class="btn-print">
-        <button class="btn btn-primary" onclick="window.print()">Imprimir Recibos</button>
-    </div>
-
     <div class="recibos-container">
         {% for index, note in notes_data.items() %}
-        <div class="recibo container">
-            <div class="recibo-header row">
-                <div class="col">
-                    <p>RECIBO Nº {{ "%03d" | format(index) }}</p>
-                </div>
-                <div class="col">
-                    <p>Valor R$ {{ note_price_number }}</p>
+        <div class="recibo">
+            <div class="recibo-header">
+                <div class="row">
+                    <div class="col">
+                        <p>RECIBO Nº {{ "%03d" | format(index) }}</p>
+                    </div>
+                    <div class="col">
+                        <!-- Valor formatado aqui -->
+                        <p>Valor <span class="formatted-price">{{ note_price_number }}</span></p>
+                    </div>
                 </div>
             </div>
             <div class="recibo-body">
-                <p>Recebi(emos) de <strong>{{ constructor_name }}</strong>.</p>
-                <p>A importância de <strong>{{ note_price_text }} Reais</strong>.</p>
+                <p>Recebi(emos) de <strong>{{ constructor_name }}</strong> a importância de <strong>{{ note_price_text }} Reais</strong>.</p>
                 <p>Referente a serviços de execução de obra, no mês de <strong>{{ note.month }}/{{ note.year }}</strong>, no imóvel sito na <strong>{{ construction_road }}, nº {{ construction_road_number }}, {{ construction_complement }}, {{ construction_city }} - {{ construction_federal_state }}.</strong></p>
-                <p>Por ser verdade, firmo o presente.</p>
+                <div class="row">
+                    <div class="col">
+                        <p>Por ser verdade, firmo o presente.</p>
+                    </div>
+                    <div class="col">
+                        <p><strong>{{ construction_city }}, {{ construction_federal_state }}, {{ note.emition_day }} de {{ note.month }} de {{ note.year }}.</strong></p>
+                    </div>
+                </div>
             </div>
             <div class="recibo-footer">
-                <p><strong>{{ construction_city }}, {{ construction_federal_state }}, {{ note.emition_day }} de {{ note.month }} de {{ note.year }}.</strong></p>
                 <p>Assinatura do emitente: ______________________________________________________</p>
                 <p>Nome do emitente: <strong>{{ note_emiter_name }}</strong>.</p>
                 <p>Endereço: {{ note_emiter_road }}, nº {{ note_emiter_road_number }}, {{ note_emiter_road_complement }}, {{ note_emiter_city }} - {{ note_emiter_federal_state }} CEP {{ note_emiter_cep }}.</p>
@@ -114,5 +118,18 @@
         </div>
         {% endfor %}
     </div>
+
+    <script>
+        // Função para formatar o valor como R$ 999.999,99
+        function formatCurrency(value) {
+            return value.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+        }
+
+        // Aplicando a formatação para cada valor
+        document.querySelectorAll('.formatted-price').forEach(function (element) {
+            const value = parseFloat(element.innerText.replace(/\./g, '').replace(',', '.')); // Converte para float
+            element.innerText = formatCurrency(value); // Atualiza o texto com a formatação
+        });
+    </script>
 </body>
 </html>

@@ -1,5 +1,5 @@
 from flask import Flask, render_template, request, send_file
-from weasyprint import HTML
+# from weasyprint import HTML
 import io
 from helpers import notes_date_data_generator
 
@@ -47,19 +47,19 @@ def gen_notes_data():
 
     return render_template("recibo.html", **data)
 
-@app.route('/generate/pdf', methods=['POST'])
-def generate_pdf():
-    """Gera o PDF com os recibos exibidos na página."""
-    html_content = render_template('recibo_template.html', **request.form.to_dict())
+# @app.route('/generate/pdf', methods=['POST'])
+# def generate_pdf():
+#     """Gera o PDF com os recibos exibidos na página."""
+#     html_content = render_template('recibo_template.html', **request.form.to_dict())
 
-    pdf = HTML(string=html_content).write_pdf()
+#     pdf = HTML(string=html_content).write_pdf()
 
-    return send_file(
-        io.BytesIO(pdf),
-        mimetype='application/pdf',
-        as_attachment=True,
-        download_name="recibos.pdf"
-    )
+#     return send_file(
+#         io.BytesIO(pdf),
+#         mimetype='application/pdf',
+#         as_attachment=True,
+#         download_name="recibos.pdf"
+#     )
 
 if __name__ == "__main__":
     app.run(debug=True)
