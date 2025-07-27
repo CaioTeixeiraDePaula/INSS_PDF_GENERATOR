@@ -2,18 +2,18 @@ from datetime import datetime
 from dateutil.relativedelta import relativedelta 
 
 months_linking_data:dict = {
-    "janeiro"  : {"code" : 1,  "emition_day" : 31},
-    "fevereiro": {"code" : 2,  "emition_day" : 28},
-    "março"    : {"code" : 3,  "emition_day" : 31},
-    "abril"    : {"code" : 4,  "emition_day" : 30},
-    "maio"     : {"code" : 5,  "emition_day" : 31},
-    "junho"    : {"code" : 6,  "emition_day" : 30},
-    "julho"    : {"code" : 7,  "emition_day" : 31},
-    "agosto"   : {"code" : 8,  "emition_day" : 31},
-    "setembro" : {"code" : 9,  "emition_day" : 30},
-    "outubro"  : {"code" : 10, "emition_day" : 31},
-    "novembro" : {"code" : 11, "emition_day" : 30},
-    "dezembro" : {"code" : 12, "emition_day" : 31}
+    "janeiro"  : {"code" : 1,  "emition_day" : 27},
+    "fevereiro": {"code" : 2,  "emition_day" : 27},
+    "março"    : {"code" : 3,  "emition_day" : 27},
+    "abril"    : {"code" : 4,  "emition_day" : 27},
+    "maio"     : {"code" : 5,  "emition_day" : 27},
+    "junho"    : {"code" : 6,  "emition_day" : 27},
+    "julho"    : {"code" : 7,  "emition_day" : 27},
+    "agosto"   : {"code" : 8,  "emition_day" : 27},
+    "setembro" : {"code" : 9,  "emition_day" : 27},
+    "outubro"  : {"code" : 10, "emition_day" : 27},
+    "novembro" : {"code" : 11, "emition_day" : 27},
+    "dezembro" : {"code" : 12, "emition_day" : 27}
 }
 
 def total_notes_num_generator(start_year:str, start_month:str, end_year:str, end_month:str) -> int:

@@ -75,7 +75,7 @@
 
             .recibo {
                 width: 100%;
-                page-break-inside: avoid;
+                break-inside: avoid;
                 margin: 0 0 20px 0;
             }
         }
@@ -88,16 +88,18 @@
             <div class="recibo-header">
                 <div class="row">
                     <div class="col">
-                        <p>RECIBO Nº {{ "%03d" | format(index) }}</p>
+                        <p>RECIBO</p>
                     </div>
                     <div class="col">
                         <!-- Valor formatado aqui -->
-                        <p>Valor <span class="formatted-price">{{ note_price_number }}</span></p>
+                        <p>Valor 
+                            <span class="formatted-price">{{ note_price_number }}</span>
+                        </p>
                     </div>
                 </div>
             </div>
             <div class="recibo-body">
-                <p>Recebi(emos) de <strong>{{ constructor_name }}</strong> a importância de <strong>{{ note_price_text }} Reais</strong>.</p>
+                <p>Recebi de <strong>{{ constructor_name }}</strong> a importância de <strong>{{ note_price_text }} Reais</strong>.</p>
                 <p>Referente a serviços de execução de obra, no mês de <strong>{{ note.month }}/{{ note.year }}</strong>, no imóvel sito na <strong>{{ construction_road }}, nº {{ construction_road_number }}, {{ construction_complement }}, {{ construction_city }} - {{ construction_federal_state }}.</strong></p>
                 <div class="row">
                     <div class="col">
